@@ -27,8 +27,6 @@
 SDKROOT = iphoneos
 SUPPORTED_PLATFORMS = iphoneos iphonesimulator
 
-VALID_ARCHS[sdk=iphoneos*] = arm64 armv7
-
 ARCHS[sdk=iphoneos*] = arm64 armv7
 ARCHS[sdk=iphonesimulator*] = x86_64
 
@@ -46,15 +44,16 @@ FRAMEWORK_VERSION = A
 OTHER_LDFLAGS = -ObjC
 LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/Frameworks @loader_path/Frameworks @executable_path/../Frameworks @loader_path/../Frameworks
 
-CARTHAGE_FOLDER[sdk=iphoneos*] = $(PROJECT_DIR)/Carthage/Build/iOS
-CARTHAGE_FOLDER[sdk=iphonesimulator*] = $(PROJECT_DIR)/Carthage/Build/iOS
-FRAMEWORK_SEARCH_PATHS = $(inherited) $(CARTHAGE_FOLDER) $(PLATFORM_DIR)/Developer/Library/Frameworks
+CARTHAGE_FOLDER[sdk=iphoneos*] = $(PROJECT_DIR)/Carthage/Build
+CARTHAGE_FOLDER[sdk=iphonesimulator*] = $(PROJECT_DIR)/Carthage/Build
+FRAMEWORK_SEARCH_PATHS = $(inherited) $(PLATFORM_DIR)/Developer/Library/Frameworks
 
 // Swift
 //
-SWIFT_VERSION = 5.1
-ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
+SWIFT_VERSION = 5.2
+ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO
 SWIFT_COMPILATION_MODE = wholemodule
+
 
 // LLVM - Code Generation
 //
@@ -64,6 +63,7 @@ GCC_DYNAMIC_NO_PIC = NO
 // LLVM - Language
 //
 GCC_C_LANGUAGE_STANDARD = gnu99
+
 
 // LLVM - Language - C++
 //
@@ -107,9 +107,6 @@ ENABLE_BITCODE = NO
 //
 VERSIONING_SYSTEM = apple-generic
 
-// Code Signing
-//
-CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Developer
 
 // Swift
 //
