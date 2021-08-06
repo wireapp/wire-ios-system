@@ -10,9 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
     - name: Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo ${{ job.status }}
+      run: echo ${{ job }}
     - uses: actions-ecosystem/action-create-comment@v1
       with:
         github_token: ${{ secrets.github_token }}
