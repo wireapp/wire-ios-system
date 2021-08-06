@@ -6,7 +6,7 @@ on:
 
 jobs:
   comment:
-    if: github.event.review.state == 'approved'
+#     if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
     steps: 
     - name: Dump GitHub context
