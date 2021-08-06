@@ -12,7 +12,6 @@ jobs:
     - name: Dump GitHub context
       run: |
         echo ${{ job }}
-        echo "Your PR is ${prNumber} and its JSON is ${prJSON}"
     - uses: actions-ecosystem/action-create-comment@v1
       with:
         github_token: ${{ secrets.github_token }}
@@ -25,7 +24,8 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         # Only return if PR is still open
         filterOutClosed: true
-        if: success() && steps.PR.outputs.number
+    - run: echo "Your PR is ${prNumber} and its JSON is ${prJSON}"
+      if: success() && steps.PR.outputs.number
       env:
         prNumber: ${{ steps.PR.outputs.number }}
         # JSON object with the full PR object
