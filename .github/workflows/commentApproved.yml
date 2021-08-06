@@ -10,9 +10,27 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
     - name: Dump GitHub context
-      run: echo ${{ job }}
+      run: |
+        echo ${{ job }}
+        echo "Your PR is ${prNumber} and its JSON is ${prJSON}"
     - uses: actions-ecosystem/action-create-comment@v1
+    - uses: actions/checkout@v1
+    - uses: 8BitJonny/gh-get-current-pr@1.1.0
+      id: PR
       with:
-        github_token: ${{ secrets.github_token }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        # Only return if PR is still open
+        filterOutClosed: true
         body: |
           Hello, @${{ github.actor }}! Thx for approved the PR! job detail: ${{ job }}
+        if: success() && steps.PR.outputs.number
+      env:
+        prNumber: ${{ steps.PR.outputs.number }}
+        # JSON object with the full PR object
+        prJSON: ${{ steps.PR.outputs.pr }}
+        # Direct access to common PR properties
+        prUrl: ${{ steps.PR.outputs.pr_url }}
+        prTitle: ${{ steps.PR.outputs.pr_title }}
+        prCreatedAt: ${{ steps.PR.outputs.pr_created_at }}
+        prMergedAt: ${{ steps.PR.outputs.pr_merged_at }}
+        prClosedAt: ${{ steps.PR.outputs.pr_closed_at }}  
