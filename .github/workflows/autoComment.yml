@@ -1,7 +1,9 @@
 name: Create Comment
 
-on: [issue_comment]
-
+on: 
+  issue_comment:
+  check_run:
+    types: [completed]
 jobs:
   create_comment:
     runs-on: ubuntu-latest
