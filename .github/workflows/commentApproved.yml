@@ -15,7 +15,7 @@ jobs:
         echo "Your PR is ${prNumber} and its JSON is ${prJSON}"
     - uses: actions-ecosystem/action-create-comment@v1
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.github_token }}
         body: |
           Hello, @${{ github.actor }}! Thx for approved the PR! job detail: ${{ job }}
     - uses: actions/checkout@v1
