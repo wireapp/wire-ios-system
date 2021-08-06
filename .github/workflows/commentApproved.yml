@@ -14,6 +14,10 @@ jobs:
         echo ${{ job }}
         echo "Your PR is ${prNumber} and its JSON is ${prJSON}"
     - uses: actions-ecosystem/action-create-comment@v1
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        body: |
+          Hello, @${{ github.actor }}! Thx for approved the PR! job detail: ${{ job }}
     - uses: actions/checkout@v1
     - uses: 8BitJonny/gh-get-current-pr@1.1.0
       id: PR
@@ -21,8 +25,6 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         # Only return if PR is still open
         filterOutClosed: true
-        body: |
-          Hello, @${{ github.actor }}! Thx for approved the PR! job detail: ${{ job }}
         if: success() && steps.PR.outputs.number
       env:
         prNumber: ${{ steps.PR.outputs.number }}
