@@ -3,8 +3,15 @@ on:
     types: [submitted]
 
 jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo ${{github.event }}
   comment:
-    if: github.event.review.state == 'approved'
+    if: github.event.review.state == 'approved' && github.
     runs-on: ubuntu-latest
     steps: 
     - uses: actions-ecosystem/action-create-comment@v1
