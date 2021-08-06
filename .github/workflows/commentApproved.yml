@@ -1,3 +1,5 @@
+name: comment for review approval
+
 on:
   pull_request_review:
     types: [submitted]
