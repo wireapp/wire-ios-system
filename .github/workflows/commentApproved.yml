@@ -3,10 +3,10 @@ on:
     types: [submitted]
 
 jobs:
-  build:
+  comment:
     if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
-steps: 
+    steps: 
     - uses: actions-ecosystem/action-create-comment@v1
       with:
         github_token: ${{ secrets.github_token }}
