@@ -1,6 +1,8 @@
-name: Create Comment
+name: Create Comment when pull request approved or check run completed
 
 on: 
+  pull_request_review:
+    types: [submitted]
   issue_comment:
   check_run:
     types: [completed]
@@ -8,10 +10,16 @@ jobs:
   create_comment:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - id: comment
       - uses: actions-ecosystem/action-create-comment@v1
-        if: ${{ startsWith(github.event.comment.body, '/hello') }}
         with:
           github_token: ${{ secrets.github_token }}
           body: |
-            Hello, @${{ github.actor }}!
+            Hello, @${{ github.actor }}! Thx for approved the PR!
+
+      - name: checkout
+      - uses: actions/checkout@v2
+
+      - name: check status
+        run: |
+          gh pr status
