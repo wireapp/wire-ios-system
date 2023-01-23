@@ -20,7 +20,7 @@ import Foundation
 
 public enum Logging: LoggerProtocol {
 
-  static var provider: LoggerProtocol?
+  public static var provider: LoggerProtocol?
 
   public func debug(
     _ message: String,
