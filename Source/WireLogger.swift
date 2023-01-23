@@ -18,7 +18,7 @@
 
 import Foundation
 
-public struct Logger: LoggerProtocol {
+public struct WireLogger: LoggerProtocol {
 
   public static var provider: LoggerProtocol?
 
