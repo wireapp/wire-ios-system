@@ -18,9 +18,9 @@
 
 import Foundation
 
-public enum Logging: LoggerInterface {
+public enum Logging: LoggerProtocol {
 
-  static var provider: LoggerInterface?
+  static var provider: LoggerProtocol?
 
   public func debug(
     _ message: String,
@@ -86,7 +86,7 @@ public enum Logging: LoggerInterface {
 
 public typealias LogAttributes = [String: Encodable]
 
-public protocol LoggerInterface {
+public protocol LoggerProtocol {
 
   func debug(_ message: String, attributes: LogAttributes?)
   func info(_ message: String, attributes: LogAttributes?)
@@ -97,7 +97,7 @@ public protocol LoggerInterface {
 
 }
 
-public extension LoggerInterface {
+public extension LoggerProtocol {
 
   func debug(
     tag: String,
