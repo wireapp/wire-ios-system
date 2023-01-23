@@ -18,68 +18,109 @@
 
 import Foundation
 
-public enum Logging: LoggerProtocol {
+public struct Logger: LoggerProtocol {
 
   public static var provider: LoggerProtocol?
+
+  public let tag: String
+
+  public init(tag: String = "") {
+    self.tag = tag
+  }
 
   public func debug(
     _ message: String,
     attributes: LogAttributes? = nil
   ) {
-    Self.provider?.debug(
-      message,
-      attributes: attributes
-    )
+    guard shouldLogMessage(message) else { return }
+    log(level: .debug, message: message, attributes: attributes)
   }
 
   public func info(
     _ message: String,
     attributes: LogAttributes? = nil
   ) {
-    Self.provider?.info(
-      message,
-      attributes: attributes
-    )
+    guard shouldLogMessage(message) else { return }
+    log(level: .info, message: message, attributes: attributes)
   }
 
   public func notice(
     _ message: String,
     attributes: LogAttributes? = nil
   ) {
-    Self.provider?.notice(
-      message,
-      attributes: attributes
-    )
+    guard shouldLogMessage(message) else { return }
+    log(level: .notice, message: message, attributes: attributes)
   }
 
   public func warn(
     _ message: String,
     attributes: LogAttributes? = nil
   ) {
-    Self.provider?.warn(
-      message,
-      attributes: attributes
-    )
+    guard shouldLogMessage(message) else { return }
+    log(level: .warn, message: message, attributes: attributes)
   }
 
   public func error(
     _ message: String,
     attributes: LogAttributes? = nil
   ) {
-    Self.provider?.error(
-      message,
-      attributes: attributes
-    )
+    guard shouldLogMessage(message) else { return }
+    log(level: .error, message: message, attributes: attributes)
   }
 
   public func critical(
     _ message: String,
     attributes: LogAttributes? = nil
   ) {
-    Self.provider?.critical(
-      message,
-      attributes: attributes
-    )
+    guard shouldLogMessage(message) else { return }
+    log(level: .critical, message: message, attributes: attributes)
+  }
+
+  private func shouldLogMessage(_ message: String) -> Bool {
+    return Self.provider != nil && !message.isEmpty
+  }
+
+  private func log(
+    level: LogLevel,
+    message: String,
+    attributes: LogAttributes? = nil
+  ) {
+    var attributes = attributes ?? .init()
+
+    if !tag.isEmpty {
+      attributes["tag"] = tag
+    }
+
+    switch level {
+    case .debug:
+      Self.provider?.debug(message, attributes: attributes)
+
+    case .info:
+      Self.provider?.info(message, attributes: attributes)
+
+    case .notice:
+      Self.provider?.notice(message, attributes: attributes)
+
+    case .warn:
+      Self.provider?.warn(message, attributes: attributes)
+
+    case .error:
+      Self.provider?.error(message, attributes: attributes)
+
+    case .critical:
+      Self.provider?.critical(message, attributes: attributes)
+    }
+  }
+
+  private enum LogLevel {
+
+    case debug
+    case info
+    case notice
+    case warn
+    case error
+    case critical
+
   }
 
 }
@@ -94,69 +135,5 @@ public protocol LoggerProtocol {
   func warn(_ message: String, attributes: LogAttributes?)
   func error(_ message: String, attributes: LogAttributes?)
   func critical(_ message: String, attributes: LogAttributes?)
-
-}
-
-public extension LoggerProtocol {
-
-  func debug(
-    tag: String,
-    _ message: String,
-    attributes: LogAttributes? = nil
-  ) {
-    var attrs = attributes ?? .init()
-    attrs["tag"] = tag
-    debug(message, attributes: attrs)
-  }
-
-  func info(
-    tag: String,
-    _ message: String,
-    attributes: LogAttributes? = nil
-  ) {
-    var attrs = attributes ?? .init()
-    attrs["tag"] = tag
-    info(message, attributes: attrs)
-  }
-
-  func notice(
-    tag: String,
-    _ message: String,
-    attributes: LogAttributes? = nil
-  ) {
-    var attrs = attributes ?? .init()
-    attrs["tag"] = tag
-    notice(message, attributes: attrs)
-  }
-
-  func warn(
-    tag: String,
-    _ message: String,
-    attributes: LogAttributes? = nil
-  ) {
-    var attrs = attributes ?? .init()
-    attrs["tag"] = tag
-    warn(message, attributes: attrs)
-  }
-
-  func error(
-    tag: String,
-    _ message: String,
-    attributes: LogAttributes? = nil
-  ) {
-    var attrs = attributes ?? .init()
-    attrs["tag"] = tag
-    error(message, attributes: attrs)
-  }
-
-  func critical(
-    tag: String,
-    _ message: String,
-    attributes: LogAttributes? = nil
-  ) {
-    var attrs = attributes ?? .init()
-    attrs["tag"] = tag
-    critical(message, attributes: attrs)
-  }
 
 }
